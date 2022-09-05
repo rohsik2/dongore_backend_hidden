@@ -9,10 +9,14 @@ import java.util.Date;
 @Data @AllArgsConstructor
 public class PostUserReq {
     String username;
+    String nickname;
     String email;
     String password;
-    Date birthday;
-    String type;
+    Date birthday = new Date();
+    String type = "Disabled";
+    String city;
+    String county;
+
 }
 
 // DTO - DAta Transfer Object

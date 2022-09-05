@@ -26,7 +26,7 @@ public class AppUserController {
     //Controller는 Req의 형태를 정하고, validation -> Service
     @RequestMapping(value = "", method = RequestMethod.POST)
     BaseResponse<?> createUser(PostUserReq req){
-        PostUserRes res = new PostUserRes();
+        PostUserRes res = service.createUser(req);
         return new BaseResponse<>(res);
     }
 }
