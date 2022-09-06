@@ -14,7 +14,6 @@ public class AppUserService {
 
     public PostUserRes createUser(PostUserReq req) {
         try {
-            AppUser user = appUserRepo.getUserByEmail(req.getEmail());
         } catch (Exception e) {
             ;
         }
@@ -23,8 +22,11 @@ public class AppUserService {
         return new PostUserRes(id);
     }
 
+    public Boolean isEmailExist(String email) {
+        return appUserRepo.isEmailExist(email);
+    }
 
-    // 이메일 중복검사
-    // 닉네임 중복검사
-    // 새로운 유저를 만드세요!
+    public Boolean isNicknameExist(String nickname) {
+        return appUserRepo.isNicknameExist(nickname);
+    }
 }
