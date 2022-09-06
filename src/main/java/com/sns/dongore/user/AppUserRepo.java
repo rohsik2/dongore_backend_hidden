@@ -58,12 +58,39 @@ public class AppUserRepo {
                     rs.getDate("birth"),
                     rs.getString("nickname"),
                     rs.getLong("role"),
-                    rs.getDate("create_at"),
+                    rs.getDate("created_at"),
                     rs.getDate("updated_at"),
                     rs.getInt("status"),
                     rs.getString("type"),
                     rs.getString("county"),
                     rs.getString("city")), params);
+    }
+
+    public boolean isIdExist(Long appUserId) {
+        String getQuery = "SELECT COUNT(*) FROM AppUser WHERE id = ?";
+        Object[] params = new Object[]{ appUserId };
+        return (jdbcTemplate.queryForObject(getQuery, Integer.class, params)) != 0;
+    }
+
+    public AppUser findUserById(Long appUserId) {
+        String getQuery = "SELECT * FROM AppUser WHERE id = ?";
+        Object[] params = new Object[]{ appUserId };
+
+        return jdbcTemplate.queryForObject(getQuery,
+                (rs, rowNum) -> new AppUser(
+                        rs.getLong("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getDate("birth"),
+                        rs.getString("nickname"),
+                        rs.getLong("role"),
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at"),
+                        rs.getInt("status"),
+                        rs.getString("type"),
+                        rs.getString("county"),
+                        rs.getString("city")), params);
     }
 }
 /*

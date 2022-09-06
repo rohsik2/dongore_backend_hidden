@@ -1,5 +1,6 @@
 package com.sns.dongore.user;
 
+import com.sns.dongore.user.model.GetUserRes;
 import com.sns.dongore.user.model.PostUserReq;
 import com.sns.dongore.user.model.PostUserRes;
 import com.sns.dongore.user.model.AppUser;
@@ -28,5 +29,14 @@ public class AppUserService {
 
     public Boolean isNicknameExist(String nickname) {
         return appUserRepo.isNicknameExist(nickname);
+    }
+
+    public boolean isIdExist(Long appUserId) {
+        return appUserRepo.isIdExist(appUserId);
+    }
+
+    public Object findUserById(Long appUserId) {
+        AppUser temp = appUserRepo.findUserById(appUserId);
+        return new GetUserRes(temp.getNickname(), temp.getEmail(), temp.getUsername(), temp.getBirth(), temp.getType());
     }
 }

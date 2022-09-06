@@ -1,6 +1,7 @@
 package com.sns.dongore.user;
 
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.sns.dongore.exceptions.BaseResponse;
 import com.sns.dongore.exceptions.BaseResponseStatus;
 import com.sns.dongore.user.model.AppUser;
@@ -8,9 +9,7 @@ import com.sns.dongore.user.model.PostUserReq;
 import com.sns.dongore.user.model.PostUserRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/user") @RequiredArgsConstructor
@@ -45,5 +44,13 @@ public class AppUserController {
 
         PostUserRes res = service.createUser(req);
         return new BaseResponse<>(res);
+    }
+
+    @GetMapping(value = "/{appUserId}")
+    BaseResponse<?> getUser(@PathVariable Long appUserId) {
+        if(service.isIdExist(appUserId)) {
+            return new BaseResponse<>(service.findUserById(appUserId));
+        }
+        else return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
     }
 }

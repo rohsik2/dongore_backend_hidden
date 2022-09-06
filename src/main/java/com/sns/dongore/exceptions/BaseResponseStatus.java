@@ -18,6 +18,7 @@ public enum BaseResponseStatus {
     EMAIL_TYPE_WRONG(false, HttpStatus.BAD_REQUEST, "이메일 형식이 잘못되었습니다."),
     EMAIL_DUPLICATED(false, HttpStatus.BAD_REQUEST, "이메일이 중복되었습니다."),
     NICKNAME_EXIST(false, HttpStatus.BAD_REQUEST, "닉네임이 중복되었습니다."),
+    USER_NOT_FOUND(false, HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다."),
     PASSWORD_TYPE_WRONG(false, HttpStatus.BAD_REQUEST, "패스워드 형식이 잘못되었습니다.");
 
 
