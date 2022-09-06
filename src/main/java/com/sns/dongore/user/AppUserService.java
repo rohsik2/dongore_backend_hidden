@@ -1,5 +1,6 @@
 package com.sns.dongore.user;
 
+import com.sns.dongore.user.model.GetUserRes;
 import com.sns.dongore.user.model.PostUserReq;
 import com.sns.dongore.user.model.PostUserRes;
 import com.sns.dongore.user.model.AppUser;
@@ -14,7 +15,6 @@ public class AppUserService {
 
     public PostUserRes createUser(PostUserReq req) {
         try {
-            AppUser user = appUserRepo.getUserByEmail(req.getEmail());
         } catch (Exception e) {
             ;
         }
@@ -23,8 +23,20 @@ public class AppUserService {
         return new PostUserRes(id);
     }
 
+    public Boolean isEmailExist(String email) {
+        return appUserRepo.isEmailExist(email);
+    }
 
-    // 이메일 중복검사
-    // 닉네임 중복검사
-    // 새로운 유저를 만드세요!
+    public Boolean isNicknameExist(String nickname) {
+        return appUserRepo.isNicknameExist(nickname);
+    }
+
+    public boolean isIdExist(Long appUserId) {
+        return appUserRepo.isIdExist(appUserId);
+    }
+
+    public Object findUserById(Long appUserId) {
+        AppUser temp = appUserRepo.findUserById(appUserId);
+        return new GetUserRes(temp.getNickname(), temp.getEmail(), temp.getUsername(), temp.getBirth(), temp.getType());
+    }
 }
