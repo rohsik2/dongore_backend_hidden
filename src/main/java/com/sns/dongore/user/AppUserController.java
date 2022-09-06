@@ -1,14 +1,11 @@
 package com.sns.dongore.user;
 
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.sns.dongore.exceptions.BaseResponse;
 import com.sns.dongore.exceptions.BaseResponseStatus;
-import com.sns.dongore.user.model.AppUser;
 import com.sns.dongore.user.model.PostUserReq;
 import com.sns.dongore.user.model.PostUserRes;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,7 +33,7 @@ public class AppUserController {
 
         // nickname Validation
         if(service.isNicknameExist(req.getNickname()))
-            return new BaseResponse<>(BaseResponseStatus.NICKNAME_EXIST);
+            return new BaseResponse<>(BaseResponseStatus.NICKNAME_DUPLICATED);
 
         // Password Validation
         if(!AppUserUtility.isValidPassword(req.getPassword()))
