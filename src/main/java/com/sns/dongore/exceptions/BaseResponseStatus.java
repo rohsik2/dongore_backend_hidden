@@ -35,9 +35,11 @@ public enum BaseResponseStatus {
     EMAIL_DUPLICATED(false, HttpStatus.BAD_REQUEST, "이메일이 중복되었습니다."),
     NICKNAME_DUPLICATED(false, HttpStatus.BAD_REQUEST, "닉네임이 중복되었습니다."),
 
-    USER_NOT_FOUND(false, HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.");
+    USER_NOT_FOUND(false, HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다."),
 
-
+    // Feed 관련
+    FEED_NOT_FOUND(false, HttpStatus.NOT_FOUND, "존재하지 않은 FeedId 입니다."),
+    PHOTO_UPLOAD_FAIL(false, HttpStatus.INTERNAL_SERVER_ERROR, "사진 업로드 도중 문제가 발생했습니다. 서버 관리자에게 문의하세요." );
 
 
     private final Boolean isSuccess;

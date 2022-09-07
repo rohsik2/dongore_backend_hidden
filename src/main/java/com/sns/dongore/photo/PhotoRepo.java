@@ -3,6 +3,8 @@ package com.sns.dongore.photo;
 import com.sns.dongore.photo.model.Photo;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class PhotoRepo {
 
@@ -19,6 +21,10 @@ public class PhotoRepo {
     }
 
     public Boolean isPhotoIdExist(Long photoId){
+        return null;
+    }
+
+    public List<Photo> searchByFeedId(Long feedId) {
         return null;
     }
 }
