@@ -50,4 +50,5 @@ public class AppUserController {
         }
         else return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
     }
+
 }
