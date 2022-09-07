@@ -5,6 +5,7 @@ import com.sns.dongore.feed.model.PostFeedReq;
 import com.sns.dongore.sensedata.SensedataRepo;
 import com.sns.dongore.sensedata.model.Sensedata;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,17 +16,16 @@ public class FeedRepo {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    // TODO : Make SQLS for Feed
-    public Long createNewFeed(PostFeedReq req) {
-        String getQuery = "INSERT INTO Feed (writer, text, title, sensedata, location)"
-                + "VALUES(?, ?, ?, ?, ?)";
-        // TODO : sensedata, location 참조 방식 고안
-        // Object[] params = new Object[]{req.getWriterId(), req.getText(), req.getTitle(), sensedata자리, location자리};
-        //jdbcTemplate.update(getQuery, params);
+    public Long createNewFeed(PostFeedReq req, Long sensedata) {
+        String getQuery = "INSERT INTO Feed (writer, text, title, sensedata)"
+                + "VALUES(?, ?, ?, ?)";
+        Object[] params = new Object[]{req.getWriterId(), req.getText(), req.getTitle(), sensedata};
+        jdbcTemplate.update(getQuery, params);
         String lastInsertIdQuery = "SELECT MAX(id) FROM Feed";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class);
     }

@@ -49,7 +49,12 @@ public class PhotoRepo {
     public List<Photo> searchByFeedId(Long feedId) {
         String getQuery = "SELECT * FROM Photo WHERE feed = ?";
         Object[] params = new Object[]{ feedId };
-        // TODO: 작성요구
-        return null;
+
+        return jdbcTemplate.query(getQuery,
+                (rs, rowNum) -> new Photo(
+                        rs.getLong("id"),
+                        rs.getString("url"),
+                        rs.getLong("feed"),
+                        rs.getDate("created_at")), params);
     }
 }

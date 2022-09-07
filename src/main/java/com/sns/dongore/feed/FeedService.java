@@ -18,8 +18,8 @@ public class FeedService {
     private final SensedataRepo sensedataRepo;
     private final PhotoRepo photoRepo;
 
-    public PostFeedRes createNewFeed(PostFeedReq req) {
-        Long feedId = feedRepo.createNewFeed(req);
+    public PostFeedRes createNewFeed(PostFeedReq req, Long sensedata) {
+        Long feedId = feedRepo.createNewFeed(req, sensedata);
         return new PostFeedRes(feedId);
     }
 

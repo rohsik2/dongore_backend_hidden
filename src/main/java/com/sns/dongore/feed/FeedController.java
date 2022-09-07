@@ -7,7 +7,10 @@ import com.sns.dongore.feed.model.PostFeedReq;
 import com.sns.dongore.feed.model.PostFeedRes;
 import com.sns.dongore.feed.model.SearchFeedRes;
 import com.sns.dongore.photo.PhotoService;
+import com.sns.dongore.sensedata.SensedataService;
+import com.sns.dongore.sensedata.model.Sensedata;
 import com.sns.dongore.user.AppUserService;
+import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,21 +22,25 @@ public class FeedController {
     private final PhotoService photoService;
     private final FeedService feedService;
 
+    private final SensedataService sensedataService;
+
     @PostMapping("")
     BaseResponse<?> createNewFeed(PostFeedReq req){
         if(!userService.isIdExist(req.getWriterId()))
             return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
 
-        PostFeedRes res = feedService.createNewFeed(req);
-        try {
-            for (MultipartFile photo : req.getPhotos()) {
-                photoService.createPhoto(photo, res.getFeedId());
-            }
-        }
-        catch(Exception e){
-            log.error("Error while uploading photo", e.getMessage());
-            return new BaseResponse<>(BaseResponseStatus.PHOTO_UPLOAD_FAIL);
-        }
+        Long sensedataID = sensedataService.createSensedata(req);
+        PostFeedRes res = feedService.createNewFeed(req, sensedataID);
+
+//        try {
+//            for (MultipartFile photo : req.getPhotos()) {
+//                photoService.createPhoto(photo, res.getFeedId());
+//            }
+//        }
+//        catch(Exception e){
+//            log.error("Error while uploading photo", e.getMessage());
+//            return new BaseResponse<>(BaseResponseStatus.PHOTO_UPLOAD_FAIL);
+//        }
         return new BaseResponse<>(res);
     }
 

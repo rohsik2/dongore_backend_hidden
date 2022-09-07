@@ -30,15 +30,15 @@ public class PostFeedReq {
 
 
     @ApiModelProperty(value="청각 0이 자극 없음 100이 자극강함. 상관없어 보이는 경우 0을 입력.")
-    Float auditory;   // 청각
+     Short auditory;   // 청각
     @ApiModelProperty(value="시각")
-    Float visual;     // 시각
+     Short visual;     // 시각
     @ApiModelProperty(value="전정계 - 평형감각, 이동감각")
-    Float vestibular; // 전정계 - 평형감각, 이동감각
+     Short vestibular; // 전정계 - 평형감각, 이동감각
     @ApiModelProperty(value="촉각")
-    Float tactile;    // 촉감
+     Short tactile;    // 촉감
     @ApiModelProperty(value="고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각")
-    Float proprioceptive; // 고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각
+     Short proprioceptive; // 고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각
     @ApiModelProperty(value="맛, 식감")
-    Float oral;       // 맛, 식감
+     Short oral;       // 맛, 식감
 }
