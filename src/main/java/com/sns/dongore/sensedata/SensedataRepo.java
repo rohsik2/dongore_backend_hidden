@@ -39,7 +39,7 @@ public class SensedataRepo {
         String getQuery = "INSERT INTO SenseData(auditory, visual, vestibular, tactile, proprioceptive, oral)"
                 + " VALUES(?, ?, ?, ?, ?, ?)";
 
-        Object[] params = new Object[]{req.getAuditory(), req.getVisual(), req.getVestibular(), req.getTactile(), req.getProprioceptive(), req.getOral()};
+        Object[] params = new Object[]{req.getSense_auditory(), req.getSense_visual(), req.getSense_vestibular(), req.getSense_tactile(), req.getSense_proprioceptive(), req.getSense_oral()};
 
         jdbcTemplate.update(getQuery, params);
         String lastInsertIdQuery = "SELECT MAX(id) from SenseData";

@@ -13,10 +13,14 @@ import com.sns.dongore.user.AppUserService;
 import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController @RequestMapping(value = "/api/feed") @RequiredArgsConstructor @Slf4j
+@RestController
+@RequestMapping(value = "/api/feed")
+@RequiredArgsConstructor
+@Slf4j
 public class FeedController {
     private final AppUserService userService;
     private final PhotoService photoService;
@@ -24,29 +28,30 @@ public class FeedController {
 
     private final SensedataService sensedataService;
 
+    @Transactional
     @PostMapping("")
-    BaseResponse<?> createNewFeed(PostFeedReq req){
-        if(!userService.isIdExist(req.getWriterId()))
+    BaseResponse<?> createNewFeed(PostFeedReq req) {
+        if (!userService.isIdExist(req.getWriterId()))
             return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
 
         Long sensedataID = sensedataService.createSensedata(req);
         PostFeedRes res = feedService.createNewFeed(req, sensedataID);
 
-//        try {
-//            for (MultipartFile photo : req.getPhotos()) {
-//                photoService.createPhoto(photo, res.getFeedId());
-//            }
-//        }
-//        catch(Exception e){
-//            log.error("Error while uploading photo", e.getMessage());
-//            return new BaseResponse<>(BaseResponseStatus.PHOTO_UPLOAD_FAIL);
-//        }
+        if (req.getPhotos() != null)
+            try {
+                for (MultipartFile photo : req.getPhotos()) {
+                    photoService.createPhoto(photo, res.getFeedId());
+                }
+            } catch (Exception e) {
+                log.error("Error while uploading photo", e.getMessage());
+                return new BaseResponse<>(BaseResponseStatus.PHOTO_UPLOAD_FAIL);
+            }
         return new BaseResponse<>(res);
     }
 
     @GetMapping(value = "/detail/{:feedId}")
-    BaseResponse<?> getFeedDetail(@PathVariable Long feedId){
-        if(!feedService.isFeedIdExist(feedId)){
+    BaseResponse<?> getFeedDetail(@PathVariable Long feedId) {
+        if (!feedService.isFeedIdExist(feedId)) {
             return new BaseResponse<>(BaseResponseStatus.FEED_NOT_FOUND);
         }
         GetFeedDetailRes res = feedService.getFeedDetail(feedId);
@@ -54,10 +59,10 @@ public class FeedController {
     }
 
     @GetMapping(value = "")
-    BaseResponse<?> getFeeds(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageNo){
-        if(pageSize == null)
+    BaseResponse<?> getFeeds(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageNo) {
+        if (pageSize == null)
             pageSize = 15;
-        if(pageNo == null)
+        if (pageNo == null)
             pageNo = 0;
         SearchFeedRes res = feedService.getFeedAll(pageSize, pageNo);
         return new BaseResponse<>(res);

@@ -67,13 +67,13 @@ public class AppUserRepo {
     }
 
     public boolean isIdExist(Long appUserId) {
-        String getQuery = "SELECT COUNT(*) FROM AppUser WHERE id = ?";
+        String getQuery = "SELECT COUNT(*) FROM appuser WHERE id = ?";
         Object[] params = new Object[]{ appUserId };
         return (jdbcTemplate.queryForObject(getQuery, Integer.class, params)) != 0;
     }
 
     public AppUser findUserById(Long appUserId) {
-        String getQuery = "SELECT * FROM AppUser WHERE id = ?";
+        String getQuery = "SELECT * FROM appuser WHERE id = ?";
         Object[] params = new Object[]{ appUserId };
 
         return jdbcTemplate.queryForObject(getQuery,
