@@ -27,6 +27,8 @@ public class PostFeedReq {
     String address_city;
     @ApiModelProperty(value="주소중에 세부, 수원시/~~동 등등")
     String address_county;
+    @ApiModelProperty(value="카테고리 ex) 음식점, 병원 등등")
+    String address_category;
 
 
     @ApiModelProperty(value="청각 0이 자극 없음 100이 자극강함. 상관없어 보이는 경우 0을 입력.", example="0")
