@@ -20,12 +20,11 @@ public class AppUserRepo {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public AppUser getUserBy;
-    public Long createUser(PostUserReq req) {
-        String query = "INSERT INTO AppUser(username, email, password, nickname, role, county, city)"
-                + "VALUES(?, ?, ?, ?, 1, ?, ?)";
+    public Long createUser(PostUserReq req, Long senseId) {
+        String query = "INSERT INTO AppUser(username, email, password, nickname, role, county, city, sensedata)"
+                + "VALUES(?, ?, ?, ?, 1, ?, ?, ?)";
 
-        Object[] params = new Object[]{req.getUsername(), req.getEmail(), req.getPassword(), req.getNickname(), req.getCounty(), req.getCity()};
+        Object[] params = new Object[]{req.getUsername(), req.getEmail(), req.getPassword(), req.getNickname(), req.getCounty(), req.getCity(), senseId};
         jdbcTemplate.update(query, params);
         String lastInsertIdQuery = "SELECT MAX(id) from AppUser"; // 가장 마지막에 삽입된(생성된) id 값은 가져온다.
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 customerId 번호를 반환한다.
@@ -63,11 +62,34 @@ public class AppUserRepo {
                     rs.getInt("status"),
                     rs.getString("type"),
                     rs.getString("county"),
-                    rs.getString("city")), params);
+                    rs.getString("city"),
+                        rs.getLong("sensedata")), params);
+    }
+
+    public AppUser getUsrById(Long userId) {
+        String getQuery = "SELECT * FROM AppUser WHERE id  = userId";
+        Object[] params = new Object[]{ userId };
+
+        return jdbcTemplate.queryForObject(getQuery,
+                (rs, rowNum) -> new AppUser(
+                        rs.getLong("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getDate("birth"),
+                        rs.getString("nickname"),
+                        rs.getLong("role"),
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at"),
+                        rs.getInt("status"),
+                        rs.getString("type"),
+                        rs.getString("county"),
+                        rs.getString("city"),
+                        rs.getLong("sensedata")), params);
     }
 
     public boolean isIdExist(Long appUserId) {
-        String getQuery = "SELECT COUNT(*) FROM appuser WHERE id = ?";
+        String getQuery = "SELECT COUNT(*) FROM AppUser WHERE id = ?";
         Object[] params = new Object[]{ appUserId };
         return (jdbcTemplate.queryForObject(getQuery, Integer.class, params)) != 0;
     }
@@ -90,6 +112,31 @@ public class AppUserRepo {
                         rs.getInt("status"),
                         rs.getString("type"),
                         rs.getString("county"),
-                        rs.getString("city")), params);
+                        rs.getString("city"),
+                        rs.getLong("sensedata")), params);
     }
+
+    public AppUser findUserByEmail(String email) {
+        String getQuery = "SELECT * FROM appuser WHERE email = ?";
+        Object[] params = new Object[]{ email };
+
+        return jdbcTemplate.queryForObject(getQuery,
+                (rs, rowNum) -> new AppUser(
+                        rs.getLong("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getDate("birth"),
+                        rs.getString("nickname"),
+                        rs.getLong("role"),
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at"),
+                        rs.getInt("status"),
+                        rs.getString("type"),
+                        rs.getString("county"),
+                        rs.getString("city"),
+                        rs.getLong("sensedata")
+                ), params);
+    }
+
 }

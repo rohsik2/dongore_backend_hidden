@@ -3,8 +3,7 @@ package com.sns.dongore.user;
 
 import com.sns.dongore.exceptions.BaseResponse;
 import com.sns.dongore.exceptions.BaseResponseStatus;
-import com.sns.dongore.user.model.PostUserReq;
-import com.sns.dongore.user.model.PostUserRes;
+import com.sns.dongore.user.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +48,18 @@ public class AppUserController {
             return new BaseResponse<>(service.findUserById(appUserId));
         }
         else return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
+    }
+
+    @PostMapping(value = "/auth/access")
+    BaseResponse<?> loginUser(LoginUserReq req){
+        if(!service.isEmailExist(req.getEmail())){
+            return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
+        }
+        AppUser user = service.findUserByEmail(req.getEmail());
+        if(!user.getPassword().equals(req.getPassword()))
+            return new BaseResponse<>(BaseResponseStatus.PASSWORD_WRONG);
+        LoginUserRes res = new LoginUserRes(user.getId(), "access_token", "refresh_token");
+        return new BaseResponse<>(res);
     }
 
 }

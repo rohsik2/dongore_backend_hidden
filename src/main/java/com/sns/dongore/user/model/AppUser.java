@@ -26,5 +26,6 @@ public class AppUser {
     String type;
     String county;
     String city;
+    Long sensedata;
 
 }

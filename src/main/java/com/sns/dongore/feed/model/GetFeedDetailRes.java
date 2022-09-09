@@ -1,5 +1,6 @@
 package com.sns.dongore.feed.model;
 
+import com.sns.dongore.address.model.Location;
 import com.sns.dongore.sensedata.model.Sensedata;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +27,9 @@ public class GetFeedDetailRes {
 
     Sensedata sensedata;
 
+    Location location;
 
-    public GetFeedDetailRes(Feed feed, Sensedata sense){
+    public GetFeedDetailRes(Feed feed, Sensedata sense, Location location){
         this.feedId = feed.getId();
         this.writerId = feed.getWriter();
         this.title = feed.getTitle();
@@ -35,7 +37,9 @@ public class GetFeedDetailRes {
         this.created_at = feed.getCreated_at();
         this.updated_at = feed.getUpdated_at();
         this.sensedata = sense;
-        this.photoUrls = new ArrayList<String>();
+        this.location = location;
+        //해당 부분은 Service에서 채워넣습니다.
+        this.photoUrls = new ArrayList<>();
     }
 
 }

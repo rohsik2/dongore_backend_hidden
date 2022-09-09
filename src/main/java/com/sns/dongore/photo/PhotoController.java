@@ -6,13 +6,15 @@ import com.sns.dongore.photo.model.PostPhotosReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RestController @RequestMapping("/api/photo") @AllArgsConstructor
+@RestController @RequestMapping(value = "/api/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) @AllArgsConstructor
 @Api(description = "This is test api for bucketeer (AWS S3)")
 public class PhotoController {
 
@@ -33,8 +35,7 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/several")
-    BaseResponse<?> photoUploadTest(@RequestParam List<MultipartFile> req){
-
-        return new BaseResponse<>(amazonService.uploadImageToAWSS3(req.get(0)));
+    BaseResponse<?> photoUploadTest(@ModelAttribute @Validated PostPhotosReq req){
+        return new BaseResponse<>(amazonService.uploadImageToAWSS3(req.getPhotos().get(1)));
     }
 }

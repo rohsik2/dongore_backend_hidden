@@ -3,33 +3,63 @@ package com.sns.dongore.address;
 import com.sns.dongore.address.model.Location;
 import com.sns.dongore.address.model.PostLocationReq;
 import com.sns.dongore.feed.model.PostFeedReq;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
 
 @Repository
 public class LocationRepo {
 
-    //TODO : Location 존재 유무 쿼리 작성.
+
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
     public Boolean isLocationIdExist(Long id){
-        return null;
+        String query = "select count(*) from location where id = ?";
+        Object[] params = {id};
+        return jdbcTemplate.queryForObject(query, Integer.class, params) == 1;
     }
 
-    //TODO : Location 조회 쿼리 작성
     public Location findById(Long id){
-        return null;
+        String findQuery = "select * from location where id = ?";
+        Object[] params = {id};
+        return jdbcTemplate.queryForObject(findQuery, ((rs, rowNum) ->
+                new Location(
+                        rs.getLong("id"),
+                        rs.getDouble("lat"),
+                        rs.getDouble("long"),
+                        rs.getString("placename"),
+                        rs.getString("city"),
+                        rs.getString("county"),
+                        rs.getString("category"),
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at")
+                )), params);
     }
 
-    //TODO : Location 생성 쿼리 작성
     public Long createLocation(PostLocationReq req){
-        return null;
+        String insertQuery = "insert into Location(lat, long, placename, city, county, category) " +
+                "values(?, ?, ?, ?, ?, ?)";
+        Object[] params = {req.getLatitude(), req.getLongitude(), req.getPlaceName(), req.getCity(), req.getCounty(), req.getCategory()};
+        jdbcTemplate.update(insertQuery, params);
+        return jdbcTemplate.queryForObject("select max(id) from location", Long.class);
     }
 
-    //TODO : Location 검색 쿼리 작성.
     public Long findByLatLongPlaceName(Double latitude, Double longitude, String placeName) {
-        return null;
+        String findQuery = "select id from location where lat = ? and long = ? and placeName like ?";
+        Object[] params = {latitude, longitude, placeName};
+        return jdbcTemplate.queryForObject(findQuery, Long.class, params);
     }
 
-    //TODO : lat+long+placeName은 Unique Index임. 해당 장소의 존재 여부를 리턴 하는 쿼리 작성.
     public Boolean isPlaceExist(Double latitude, Double longitude, String placeName){
-        return null;
+        String findQuery = "select count(*) from location where lat = ? and long = ? and placeName like ?";
+        Object[] params = {latitude, longitude, placeName};
+        return jdbcTemplate.queryForObject(findQuery, Integer.class, params) == 1;
     }
 }

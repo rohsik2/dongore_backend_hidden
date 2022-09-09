@@ -13,4 +13,13 @@ public class Sensedata {
     Short tactile;
     Short proprioceptive;
     Short oral;
+
+    public boolean isBiggerThan(Sensedata other){
+        return this.auditory > other.auditory &&
+                this.visual > other.visual &&
+                this.vestibular > other.vestibular &&
+                this.tactile > other.tactile &&
+                this.proprioceptive > other.proprioceptive &&
+                this.oral > other.oral;
+    }
 }

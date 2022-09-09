@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data @AllArgsConstructor
 public class Location {
+    Long id;
     Double longitude;
     Double latitude;
     String placeName;

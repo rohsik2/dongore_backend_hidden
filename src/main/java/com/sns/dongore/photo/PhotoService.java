@@ -2,10 +2,11 @@ package com.sns.dongore.photo;
 
 import com.sns.dongore.photo.model.Photo;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service @AllArgsConstructor
+@Service @AllArgsConstructor @Slf4j
 public class PhotoService {
 
     private final PhotoRepo photoRepo;
