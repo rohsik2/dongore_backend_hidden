@@ -6,11 +6,9 @@ import com.sns.dongore.exceptions.BaseResponseStatus;
 import com.sns.dongore.feed.model.*;
 import com.sns.dongore.photo.PhotoService;
 import com.sns.dongore.sensedata.SensedataService;
-import com.sns.dongore.sensedata.model.Sensedata;
 import com.sns.dongore.user.AppUserRepo;
 import com.sns.dongore.user.AppUserService;
 import com.sns.dongore.user.model.AppUser;
-import com.sns.dongore.user.model.GetUserRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,29 +76,18 @@ public class FeedController {
 
     @PostMapping("/search")
     BaseResponse<?> searchFeeds(SearchFeedReq req){
+        if(req.getDoSenseFilter() && userService.isIdExist(req.getUserId())) {
+            AppUser user = appUserRepo.findUserById(req.getUserId());
+            if (user.getSensedata() == null)
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_HAVE_SENSE);
+        }
+        else if (req.getDoSenseFilter()){
+            return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
+        }
+
+        //제언 : coordinate로 모두 가져오고, 이후 직접 메모리에 얹어서 필터링 진행중.. 효율성 제고 필요함.
         SearchFeedRes res = feedService.searchFeedByCoordinate(req);
 
-        // SearchKeyWord로 핸들링
-
-        if(req.getSearchKeyWord() != null && !req.getSearchKeyWord().equals("")){
-            res.getFeedThumbnails().removeIf(feedThumbnail ->
-                    !feedThumbnail.getText().contains(req.getSearchKeyWord()) &&
-                    !feedThumbnail.getTitle().contains(req.getSearchKeyWord()) &&
-                    !feedThumbnail.getWriter().contains(req.getSearchKeyWord()));
-        }
-
-        // User 의 senseData가져오고, 그걸로 필터링하는 코드.
-        if(req.getDoSenseFilter()){
-            if(userService.isIdExist(req.getUserId())) {
-                AppUser user = appUserRepo.findUserById(req.getUserId());
-                if(user.getSensedata() == null)
-                    return new BaseResponse<> (BaseResponseStatus.USER_NOT_HAVE_SENSE);
-
-                Sensedata userSense = sensedataService.getById(user.getSensedata());
-                res.getFeedThumbnails().removeIf(feedThumbnail ->
-                        feedThumbnail.getSensedata().isBiggerThan(userSense));
-            }
-        }
         return new BaseResponse<>(res);
     }
 

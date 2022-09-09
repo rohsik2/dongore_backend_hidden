@@ -1,6 +1,7 @@
 package com.sns.dongore.address.model;
 
 import com.sns.dongore.sensedata.model.LocationAvgSenseData;
+import com.sns.dongore.sensedata.model.Sensedata;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -18,12 +19,7 @@ public class LocationDetail {
     Date updated_at;
     Date created_at;
 
-    Short auditory;
-    Short visual;
-    Short vestibular;
-    Short tactile;
-    Short proprioceptive;
-    Short oral;
+    Sensedata sensedata;
 
     private LocationDetail(Location location, Short auditory, Short visual, Short vestibular, Short tactile, Short proprioceptive, Short oral){
         this.longitude = location.longitude;
@@ -35,12 +31,14 @@ public class LocationDetail {
         this.updated_at = location.updated_at;
         this.created_at = location.created_at;
 
-        this.auditory = auditory;
-        this.visual = visual;
-        this.vestibular = vestibular;
-        this.tactile = tactile;
-        this.proprioceptive = proprioceptive;
-        this.oral = oral;
+        this.sensedata = new Sensedata(-1L,
+                auditory,
+                visual,
+                vestibular,
+                tactile,
+                proprioceptive,
+                oral
+                );
     }
 
     public static LocationDetail makeFromLocations(Location location, LocationAvgSenseData avgFromLocation){
