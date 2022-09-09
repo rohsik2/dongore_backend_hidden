@@ -3,6 +3,7 @@ package com.sns.dongore.photo;
 import com.sns.dongore.photo.model.Photo;
 import com.sns.dongore.user.model.GetUserRes;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ import java.util.List;
 public class PhotoRepo {
 
     public JdbcTemplate jdbcTemplate;
+
+    @Autowired
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }

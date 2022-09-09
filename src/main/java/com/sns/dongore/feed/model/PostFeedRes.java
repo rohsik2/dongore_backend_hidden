@@ -10,6 +10,6 @@ public class PostFeedRes {
 
     public PostFeedRes(Long feedId){
         this.feedId = feedId;
-        this.url = "/api/feed/" + String.valueOf(feedId);
+        this.url = "/api/feed/detail/" + String.valueOf(feedId);
     }
 }
