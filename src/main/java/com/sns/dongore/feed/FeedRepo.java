@@ -21,10 +21,10 @@ public class FeedRepo {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Long createNewFeed(PostFeedReq req, Long sensedata) {
-        String getQuery = "INSERT INTO Feed (writer, text, title, sensedata)"
+    public Long createNewFeed(PostFeedReq req, Long sensedata, Long location) {
+        String getQuery = "INSERT INTO Feed (writer, text, title, sensedata, location)"
                 + "VALUES(?, ?, ?, ?)";
-        Object[] params = new Object[]{req.getWriterId(), req.getText(), req.getTitle(), sensedata};
+        Object[] params = new Object[]{req.getWriterId(), req.getText(), req.getTitle(), sensedata, location};
         jdbcTemplate.update(getQuery, params);
         String lastInsertIdQuery = "SELECT MAX(id) FROM Feed";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class);

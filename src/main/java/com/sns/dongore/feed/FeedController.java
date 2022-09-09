@@ -1,5 +1,6 @@
 package com.sns.dongore.feed;
 
+import com.sns.dongore.address.LocationService;
 import com.sns.dongore.exceptions.BaseResponse;
 import com.sns.dongore.exceptions.BaseResponseStatus;
 import com.sns.dongore.feed.model.GetFeedDetailRes;
@@ -25,17 +26,24 @@ public class FeedController {
     private final AppUserService userService;
     private final PhotoService photoService;
     private final FeedService feedService;
-
     private final SensedataService sensedataService;
+    private final LocationService locationService;
 
     @Transactional
     @PostMapping("")
     BaseResponse<?> createNewFeed(PostFeedReq req) {
+        //Id 확인
         if (!userService.isIdExist(req.getWriterId()))
             return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
 
         Long sensedataID = sensedataService.createSensedata(req);
-        PostFeedRes res = feedService.createNewFeed(req, sensedataID);
+
+        Long placeId = null;
+        if(locationService.isPlaceExist(req.getAddress_latitude(), req.getAddress_longitude(), req.getAddress_placeName())){
+            placeId = locationService.findByLatLongPlaceName(req.getAddress_latitude(), req.getAddress_longitude(), req.getAddress_placeName());
+        }
+        else placeId = locationService.createLocation(req);
+        PostFeedRes res = feedService.createNewFeed(req, sensedataID, placeId);
 
         if (req.getPhotos() != null)
             try {
