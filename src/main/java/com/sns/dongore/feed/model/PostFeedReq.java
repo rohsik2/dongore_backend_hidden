@@ -8,15 +8,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
-@ApiModel(value = "Feed 정보", description = "새 피드를 작성하기 위한 Description 입니다.")
+@ApiModel(value = "Feed 정보 스웨거 테스트 불가", description = "새 피드를 작성하기 위한 Description 입니다.")
 public class PostFeedReq {
 
     @ApiModelProperty(value="appUserId", example="0")
     Long writerId; // 2
     String text;   // 제목
     String title;  // 내용
-    @ApiModelProperty(value="photos[0], photos[1]과 같은 이름으로 multipart/form-data에 넣어주세요. 최대 크기는 1048576 byte입니다.")
-    MultipartFile[] photos; // 해당파트는 swagger에서는 잘 동작하지 않습니다.
+    MultipartFile[] photos; // 해당파트는 swagger에서는 잘 동작하지 않습니다. postman 테스트 부탁드려요.
     @ApiModelProperty(value="'#안녕 #만나서 #반가워'와 같이 여러 해시태그를 긴 문자열로 넣어주세요.")
     String hashTags; // #안녕 #만나서 #반가워
 
@@ -27,7 +26,7 @@ public class PostFeedReq {
     String address_city;
     @ApiModelProperty(value="주소중에 세부, 수원시/~~동 등등")
     String address_county;
-    @ApiModelProperty(value="카테고리 ex) 음식점, 병원 등등")
+    @ApiModelProperty(value="이 api는 swagger에서는 잘 동작하지 않습니다. multipart/form-data 걸어서 postman으로 태스트 해주세요.\n" +"카테고리 ex) 음식점, 병원 등등")
     String address_category;
 
 

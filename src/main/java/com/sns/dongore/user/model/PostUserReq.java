@@ -13,22 +13,25 @@ public class PostUserReq {
     String nickname;
     String email;
     String password;
-    Date birthday = new Date();
-    String type = "Disabled";
+    @ApiModelProperty(value="사용안함 지금은, 비워두세요.", example = "")
+    Date birthday;
+
+    @ApiModelProperty(value="disabled, guardian, teacher, etc 중에서 하나를 입력하세요.")
+    String type;
     String city;
     String county;
 
-    @ApiModelProperty(value="청각 0이 자극 없음 100이 자극강함. 상관없어 보이는 경우 0을 입력.", example="0")
+    @ApiModelProperty(value="청각의 역치 0 = 버티기 힘들어함. 100 = 굉장히 잘 버팀.", example="100")
     Short sense_auditory;
-    @ApiModelProperty(value="시각", example="0")
+    @ApiModelProperty(value="시각 ", example="100")
     Short sense_visual;
-    @ApiModelProperty(value="전정계 - 평형감각, 이동감각", example="0")
+    @ApiModelProperty(value="전정계 - 평형감각, 이동감각", example="100")
     Short sense_vestibular;
-    @ApiModelProperty(value="촉각", example="0")
+    @ApiModelProperty(value="촉각", example="100")
     Short sense_tactile;
-    @ApiModelProperty(value="고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각", example="0")
+    @ApiModelProperty(value="고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각", example="100")
     Short sense_proprioceptive;
-    @ApiModelProperty(value="맛, 식감", example="0")
+    @ApiModelProperty(value="맛, 식감", example="100")
     Short sense_oral;
 }
 

@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor @NoArgsConstructor
 public class PostUserRes {
     Long appUserId;
-
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/user") @RequiredArgsConstructor
+@CrossOrigin(origins="*")
+
 public class AppUserController {
 
     private final AppUserService service;

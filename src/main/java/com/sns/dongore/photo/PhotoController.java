@@ -16,6 +16,8 @@ import java.util.List;
 
 @RestController @RequestMapping(value = "/api/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) @AllArgsConstructor
 @Api(description = "This is test api for bucketeer (AWS S3)")
+@CrossOrigin(origins="*")
+
 public class PhotoController {
 
     private final PhotoService photoService;

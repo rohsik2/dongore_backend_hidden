@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/api/feed")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins="*")
 public class FeedController {
     private final AppUserService userService;
     private final AppUserRepo appUserRepo;

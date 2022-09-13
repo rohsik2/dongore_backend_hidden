@@ -17,5 +17,6 @@ public class FeedThumbnail {
     String mainPhoto;
 
     Sensedata sensedata;
+    Location location;
 
 }

@@ -50,7 +50,7 @@ public class FeedService {
         Sensedata sensedata = sensedataRepo.findById(feed.getSensedata());
         Location location = null;
         try {
-            location = locationRepo.findById((feed.getLocation()));
+            location = locationRepo.findById(feed.getLocation());
         }
         catch(Exception e){
             log.info("This feed {} doesn't hvae location", feedId);
@@ -125,7 +125,7 @@ public class FeedService {
                 mainphoto = photos.get(0).getUrl();
             Sensedata sensedata = sensedataRepo.findById(feed.getSensedata());
             thumbnails.add(new FeedThumbnail(
-                    feed.getId(), feed.getWriter(), feed.getTitle(), feed.getText(), writername, mainphoto, sensedata
+                    feed.getId(), feed.getWriter(), feed.getTitle(), feed.getText(), writername, mainphoto, sensedata, locationRepo.findById(feed.getLocation())
             ));
         }
         return thumbnails;

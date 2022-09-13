@@ -14,13 +14,13 @@ public class SearchFeedReq {
     String hashTag;
 
 
-    @ApiModelProperty(value="bottom")
+    @ApiModelProperty(value="bottom" , example = "0")
     Double ws_latitude;//좌하귀 위도
-    @ApiModelProperty(value="left")
+    @ApiModelProperty(value="left", example = "0")
     Double ws_longitude;//좌하귀 경도
 
-    @ApiModelProperty(value="top")
+    @ApiModelProperty(value="top", example = "100")
     Double en_latitude;//우상귀 위도
-    @ApiModelProperty(value="right")
+    @ApiModelProperty(value="right", example = "100")
     Double en_longitude;//우상귀 경도
 }

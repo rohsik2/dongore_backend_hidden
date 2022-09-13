@@ -1,8 +1,7 @@
 package com.sns.dongore.user;
 
-import com.sns.dongore.feed.model.PostFeedReq;
 import com.sns.dongore.sensedata.SensedataRepo;
-import com.sns.dongore.sensedata.SensedataService;
+import com.sns.dongore.sensedata.model.Sensedata;
 import com.sns.dongore.user.model.GetUserRes;
 import com.sns.dongore.user.model.PostUserReq;
 import com.sns.dongore.user.model.PostUserRes;
@@ -38,7 +37,14 @@ public class AppUserService {
 
     public GetUserRes findUserById(Long appUserId) {
         AppUser temp = appUserRepo.findUserById(appUserId);
-        return new GetUserRes(temp.getNickname(), temp.getEmail(), temp.getUsername(), temp.getBirth(), temp.getType());
+        Sensedata userSense = null;
+        try {
+            userSense = sensedataRepo.findById(temp.getSensedata());
+        }
+        catch(Exception e){
+            ;
+        }
+        return new GetUserRes(temp.getId(), temp.getNickname(), temp.getEmail(), temp.getUsername(), temp.getBirth(), temp.getType(), userSense);
     }
 
     public AppUser findUserByEmail(String email) {
